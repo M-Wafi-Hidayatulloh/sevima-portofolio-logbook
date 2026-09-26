@@ -1,159 +1,205 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center justify-between">
-            <h2 class="font-bold text-xl text-slate-800 leading-tight flex items-center gap-2">
-                <span>⚡</span> Dashboard Student Logbook
-            </h2>
-            <span class="text-xs font-semibold px-3 py-1 bg-indigo-50 text-indigo-600 rounded-full border border-indigo-100">
-                Mode Pengembang
+        <div class="bg-slate-950 -mx-4 -my-6 p-6 sm:-mx-8 border-b border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <span class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-slate-950 font-black shadow-lg shadow-indigo-500/20 text-xl shrink-0">
+                    ⚡
+                </span>
+                <div>
+                    <h2 class="font-extrabold text-xl text-white tracking-tight">
+                        Dashboard Student Logbook
+                    </h2>
+                    <p class="text-xs text-slate-400 font-medium">
+                        Kelola dokumentasi proyek dan pantau status portofolio digitalmu.
+                    </p>
+                </div>
+            </div>
+            <span class="text-xs font-bold px-3.5 py-1.5 bg-indigo-500/10 text-indigo-400 rounded-full border border-indigo-500/20 flex items-center gap-2 shadow-sm w-fit">
+                <span class="w-2 h-2 rounded-full bg-indigo-400 animate-pulse"></span>
+                Mode Pengembang (Siswa)
             </span>
         </div>
     </x-slot>
 
-    <div class="py-8 bg-slate-50 min-h-screen">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            
-            <!-- Alert Notifikasi Sukses -->
-            @if (session('success'))
-                <div class="bg-emerald-500 text-white px-5 py-3.5 rounded-2xl shadow-lg shadow-emerald-500/20 flex items-center gap-3 text-sm font-medium">
-                    <span>✅</span>
-                    <span>{{ session('success') }}</span>
-                </div>
-            @endif
+    <div class="py-8 bg-slate-950 min-h-screen text-slate-100 relative overflow-hidden">
+        
+        <!-- Background Glow Effects -->
+        <div class="absolute top-0 right-1/4 w-96 h-96 bg-indigo-600/10 blur-[140px] pointer-events-none rounded-full"></div>
+        <div class="absolute bottom-10 left-10 w-96 h-96 bg-purple-600/10 blur-[140px] pointer-events-none rounded-full"></div>
 
-            <!-- Banner Akses Portofolio Publik -->
-            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 p-8 text-white shadow-xl border border-slate-800">
-                <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-                    <div class="space-y-1">
-                        <span class="text-xs font-bold tracking-widest text-indigo-400 uppercase">Live Preview Link</span>
-                        <h3 class="text-2xl font-extrabold text-white">Portofolio Digital Industri Kamu</h3>
-                        <p class="text-slate-400 text-sm max-w-xl">
-                            Seluruh proyek yang kamu catat di bawah akan langsung dirender menjadi halaman portofolio publik yang siap direview HRD/Mentor.
-                        </p>
-                    </div>
-                    <div class="shrink-0">
-                        @if(auth()->user()->username)
-                            <a href="{{ route('portfolio.show', auth()->user()->username) }}" target="_blank" class="inline-flex items-center gap-2 px-6 py-3.5 bg-gradient-to-r from-indigo-500 to-emerald-500 hover:from-indigo-600 hover:to-emerald-600 text-white font-bold rounded-xl shadow-lg shadow-indigo-500/25 transition transform active:scale-95 text-sm">
-                                🌐 Buka Portofolio (/p/{{ auth()->user()->username }}) &rarr;
-                            </a>
-                        @else
-                            <a href="{{ route('profile.edit') }}" class="inline-flex items-center gap-2 px-6 py-3.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-xl shadow-lg shadow-amber-500/25 transition text-sm">
-                                ⚡ Lengkapi Username Dulu
-                            </a>
-                        @endif
-                    </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 relative z-10">
+
+            <!-- Banner Portofolio Publik -->
+            <div class="bg-gradient-to-r from-slate-900/90 via-indigo-950/40 to-slate-900/90 backdrop-blur-xl p-6 md:p-8 rounded-3xl border border-indigo-500/20 shadow-2xl relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div class="space-y-2 max-w-2xl relative z-10">
+                    <span class="text-[10px] font-bold tracking-widest text-indigo-400 uppercase bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 rounded-full">
+                        LIVE PREVIEW LINK
+                    </span>
+                    <h3 class="text-2xl font-black text-white tracking-tight">
+                        Portofolio Digital Industri Kamu
+                    </h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Seluruh proyek yang kamu catat di bawah akan langsung dirender menjadi halaman portofolio publik yang siap direview HRD dan Mentor.
+                    </p>
+                </div>
+
+                <div class="shrink-0 relative z-10">
+                    @if(auth()->user()->username)
+                        <a href="{{ route('portfolio.show', auth()->user()->username) }}" target="_blank" 
+                           class="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-2xl shadow-lg shadow-indigo-600/30 transition duration-200 active:scale-[0.98]">
+                            <span>🌐</span> Lihat Portofolio Saya &rarr;
+                        </a>
+                    @else
+                        <a href="{{ route('profile.edit') }}" 
+                           class="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-2xl shadow-lg shadow-amber-500/20 transition duration-200 active:scale-[0.98]">
+                            ⚡ Lengkapi Username Dulu
+                        </a>
+                    @endif
                 </div>
             </div>
 
-            <!-- Form & Daftar Logbook Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Content Grid: Form Input & List Karya -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 
-                <!-- Form Input Proyek -->
-                <div class="lg:col-span-5 bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-200/80 h-fit space-y-5">
-                    <div class="border-b border-slate-100 pb-4">
-                        <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                <!-- Left Column: Form Tambah Proyek -->
+                <div class="lg:col-span-5 bg-slate-900/60 backdrop-blur-xl p-6 rounded-3xl border border-slate-800/80 shadow-2xl space-y-5">
+                    <div class="border-b border-slate-800/80 pb-4">
+                        <h3 class="text-base font-bold text-white flex items-center gap-2">
                             <span>🛠️</span> Tambah Proyek Logbook
                         </h3>
-                        <p class="text-xs text-slate-500 mt-0.5">Dokumentasikan karya dan pengalaman teknismu.</p>
+                        <p class="text-xs text-slate-400 mt-1">Dokumentasikan karya dan pengalaman teknismu.</p>
                     </div>
-                    
+
                     <form action="{{ route('projects.store') }}" method="POST" class="space-y-4">
                         @csrf
+                        
+                        <!-- Judul Proyek -->
                         <div>
-                            <x-input-label for="title" value="Judul Proyek / Aplikasi" class="text-slate-700 font-semibold text-xs uppercase" />
-                            <x-text-input id="title" name="title" type="text" class="mt-1.5 block w-full rounded-xl border-slate-200 focus:border-indigo-500 focus:ring-indigo-500 text-sm" placeholder="Contoh: XKUL.id / Tokoku Web" required />
+                            <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+                                Judul Proyek / Aplikasi
+                            </label>
+                            <input type="text" name="title" required placeholder="Contoh: XKUL.id / Tokoku Web"
+                                   class="w-full px-4 py-3 bg-slate-950/80 border border-slate-800 rounded-xl text-slate-100 placeholder-slate-600 text-xs focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition">
                         </div>
 
-                        <div class="grid grid-cols-2 gap-3">
+                        <!-- Peran & Tech Stack -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div>
-                                <x-input-label for="role" value="Peran Kamu" class="text-slate-700 font-semibold text-xs uppercase" />
-                                <x-text-input id="role" name="role" type="text" class="mt-1.5 block w-full rounded-xl border-slate-200 focus:border-indigo-500 focus:ring-indigo-500 text-sm" placeholder="Fullstack Dev" required />
+                                <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+                                    Peran Kamu
+                                </label>
+                                <input type="text" name="role" placeholder="Fullstack Dev"
+                                       class="w-full px-4 py-3 bg-slate-950/80 border border-slate-800 rounded-xl text-slate-100 placeholder-slate-600 text-xs focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition">
                             </div>
                             <div>
-                                <x-input-label for="tech_stack" value="Tech Stack" class="text-slate-700 font-semibold text-xs uppercase" />
-                                <x-text-input id="tech_stack" name="tech_stack" type="text" class="mt-1.5 block w-full rounded-xl border-slate-200 focus:border-indigo-500 focus:ring-indigo-500 text-sm" placeholder="Laravel, Tailwind" required />
+                                <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+                                    Tech Stack
+                                </label>
+                                <input type="text" name="tech_stack" placeholder="Laravel, Tailwind"
+                                       class="w-full px-4 py-3 bg-slate-950/80 border border-slate-800 rounded-xl text-slate-100 placeholder-slate-600 text-xs focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition">
                             </div>
                         </div>
 
+                        <!-- Deskripsi -->
                         <div>
-                            <x-input-label for="description" value="Ringkasan Solusi & Fitur" class="text-slate-700 font-semibold text-xs uppercase" />
-                            <textarea id="description" name="description" rows="3" class="mt-1.5 block w-full border-slate-200 focus:border-indigo-500 focus:ring-indigo-500 rounded-xl text-sm" placeholder="Jelaskan masalah yang diselesaikan dan teknologi utama yang dipakai..." required></textarea>
+                            <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+                                Ringkasan Solusi & Fitur
+                            </label>
+                            <textarea name="description" rows="3" required placeholder="Jelaskan masalah yang diselesaikan dan teknologi utama yang dipakai..."
+                                      class="w-full px-4 py-3 bg-slate-950/80 border border-slate-800 rounded-xl text-slate-100 placeholder-slate-600 text-xs focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition resize-none"></textarea>
                         </div>
 
-                        <div>
-                            <x-input-label for="github_url" value="Repository GitHub (URL)" class="text-slate-700 font-semibold text-xs uppercase" />
-                            <x-text-input id="github_url" name="github_url" type="url" class="mt-1.5 block w-full rounded-xl border-slate-200 focus:border-indigo-500 focus:ring-indigo-500 text-sm" placeholder="https://github.com/username/repo" />
+                        <!-- Link Repository & Live Demo -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+                                    Link Repository GitHub
+                                </label>
+                                <input type="url" name="github_url" placeholder="https://github.com/..."
+                                       class="w-full px-4 py-3 bg-slate-950/80 border border-slate-800 rounded-xl text-slate-100 placeholder-slate-600 text-xs focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+                                    Link Live Demo
+                                </label>
+                                <input type="url" name="demo_url" placeholder="https://..."
+                                       class="w-full px-4 py-3 bg-slate-950/80 border border-slate-800 rounded-xl text-slate-100 placeholder-slate-600 text-xs focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition">
+                            </div>
                         </div>
 
-                        <div>
-                            <x-input-label for="demo_url" value="Link Live Demo / Web (URL)" class="text-slate-700 font-semibold text-xs uppercase" />
-                            <x-text-input id="demo_url" name="demo_url" type="url" class="mt-1.5 block w-full rounded-xl border-slate-200 focus:border-indigo-500 focus:ring-indigo-500 text-sm" placeholder="https://aplikasi-demo.com" />
-                        </div>
-
-                        <button type="submit" class="w-full py-3.5 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md shadow-indigo-600/20 transition text-sm flex items-center justify-center gap-2">
-                            <span>📌</span> Simpan ke Logbook
+                        <button type="submit" 
+                                class="w-full py-3.5 px-4 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs rounded-xl shadow-lg shadow-emerald-500/20 transition duration-200 active:scale-[0.98]">
+                            + Simpan Logbook Proyek
                         </button>
                     </form>
                 </div>
 
-                <!-- Daftar Card Proyek -->
+                <!-- Right Column: Daftar Karya Terverifikasi -->
                 <div class="lg:col-span-7 space-y-4">
-                    <div class="flex items-center justify-between px-2">
-                        <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                    <div class="flex items-center justify-between border-b border-slate-800/80 pb-3">
+                        <h3 class="text-base font-bold text-white flex items-center gap-2">
                             <span>📦</span> Daftar Karya Terverifikasi
                         </h3>
-                        <span class="text-xs font-bold text-slate-500 bg-slate-200/60 px-3 py-1 rounded-full">
+                        <span class="text-xs font-bold text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 rounded-full">
                             {{ $projects->count() }} Proyek
                         </span>
                     </div>
 
                     @if($projects->isEmpty())
-                        <div class="bg-white rounded-3xl p-12 text-center border border-dashed border-slate-300 text-slate-400 space-y-2">
-                            <div class="text-3xl">📂</div>
-                            <p class="font-medium text-sm text-slate-600">Belum ada proyek yang dicatat.</p>
-                            <p class="text-xs">Gunakan form di sebelah kiri untuk menambah proyek pertama kamu.</p>
+                        <div class="text-center py-16 space-y-3 bg-slate-900/40 rounded-3xl border border-dashed border-slate-800/80 p-8">
+                            <div class="w-16 h-16 bg-slate-800/50 rounded-2xl flex items-center justify-center mx-auto text-3xl">
+                                📁
+                            </div>
+                            <p class="text-slate-300 text-sm font-semibold">Belum ada proyek yang dicatat.</p>
+                            <p class="text-xs text-slate-500">Gunakan form di sebelah kiri untuk menambah proyek pertama kamu.</p>
                         </div>
                     @else
-                        <div class="space-y-4">
+                        <div class="grid grid-cols-1 gap-4">
                             @foreach($projects as $project)
-                                <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm hover:shadow-md transition space-y-3">
+                                <div class="bg-slate-900/60 border border-slate-800/80 hover:border-indigo-500/40 rounded-2xl p-5 transition duration-300 space-y-4 relative group">
                                     <div class="flex items-start justify-between gap-4">
-                                        <div>
-                                            <span class="text-[10px] font-extrabold tracking-wider uppercase px-2.5 py-1 bg-indigo-50 text-indigo-600 rounded-md">
-                                                {{ $project->role }}
-                                            </span>
-                                            <h4 class="text-lg font-bold text-slate-900 mt-2">{{ $project->title }}</h4>
+                                        <div class="space-y-1">
+                                            <h4 class="text-base font-bold text-white group-hover:text-indigo-400 transition duration-200">
+                                                {{ $project->title }}
+                                            </h4>
+                                            <div class="flex flex-wrap items-center gap-2">
+                                                @if($project->role)
+                                                    <span class="text-[10px] font-semibold bg-slate-800 text-slate-300 px-2.5 py-0.5 rounded-md">
+                                                        👤 {{ $project->role }}
+                                                    </span>
+                                                @endif
+                                                @if($project->tech_stack)
+                                                    <span class="text-[10px] font-semibold bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 px-2.5 py-0.5 rounded-md">
+                                                        💻 {{ $project->tech_stack }}
+                                                    </span>
+                                                @endif
+                                            </div>
                                         </div>
-                                        <form action="{{ route('projects.destroy', $project->id) }}" method="POST" onsubmit="return confirm('Hapus proyek ini dari logbook?');">
+
+                                        <!-- Form Delete Proyek -->
+                                        <form action="{{ route('projects.destroy', $project->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus proyek ini?')">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="text-slate-400 hover:text-rose-500 transition text-xs font-medium px-2 py-1">
-                                                ✕ Hapus
+                                            <button type="submit" class="text-slate-500 hover:text-rose-400 p-1.5 rounded-lg hover:bg-rose-500/10 transition" title="Hapus Proyek">
+                                                🗑️
                                             </button>
                                         </form>
                                     </div>
 
-                                    <p class="text-slate-600 text-sm leading-relaxed">{{ $project->description }}</p>
+                                    <p class="text-xs text-slate-400 leading-relaxed">
+                                        {{ $project->description }}
+                                    </p>
 
-                                    <!-- Stack Badges -->
-                                    <div class="flex flex-wrap gap-1.5 pt-1">
-                                        @foreach(explode(',', $project->tech_stack) as $tech)
-                                            <span class="text-xs font-semibold px-2.5 py-1 bg-slate-100 text-slate-700 rounded-lg">
-                                                {{ trim($tech) }}
-                                            </span>
-                                        @endforeach
-                                    </div>
-
-                                    <!-- External Links -->
-                                    <div class="pt-3 border-t border-slate-100 flex items-center gap-4 text-xs font-bold text-slate-600">
+                                    <!-- Link Eksternal -->
+                                    <div class="flex items-center gap-3 pt-2 border-t border-slate-800/60 text-xs">
                                         @if($project->github_url)
-                                            <a href="{{ $project->github_url }}" target="_blank" class="hover:text-indigo-600 flex items-center gap-1 transition">
-                                                💻 Code Base
+                                            <a href="{{ $project->github_url }}" target="_blank" class="text-indigo-400 hover:text-indigo-300 font-semibold flex items-center gap-1 transition">
+                                                🔗 Repository GitHub
                                             </a>
                                         @endif
                                         @if($project->demo_url)
-                                            <a href="{{ $project->demo_url }}" target="_blank" class="text-emerald-600 hover:text-emerald-700 flex items-center gap-1 transition">
-                                                🌐 Live Demo
+                                            <a href="{{ $project->demo_url }}" target="_blank" class="text-emerald-400 hover:text-emerald-300 font-semibold flex items-center gap-1 transition">
+                                                🚀 Live Demo
                                             </a>
                                         @endif
                                     </div>
